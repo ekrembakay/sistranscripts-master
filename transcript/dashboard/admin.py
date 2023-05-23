@@ -26,28 +26,9 @@ class YearAdmin(admin.ModelAdmin):
         list_display = ["year"]
         list_display_links = None  # Remove the link from the year field
 
-        def year_link(self, obj):
-            url = reverse("admin:year-classes", args=[obj.pk])  # URL for the classes page
-            return f'<a href="{url}">{obj.year}</a>'
-
-        year_link.short_description = "Year"
-        list_display = [year_link]
-
-        def get_urls(self):
-            urls = super().get_urls()
-            custom_urls = [
-                path('<int:year_id>/classes/', self.admin_site.admin_view(self.year_classes_view), name='year-classes')
-            ]
-            return custom_urls + urls
-
-        def year_classes_view(self, request, year_id):
-            year = Year.objects.get(pk=year_id)
-            classes = year.class_set.all()
-            return render(request, 'admin/year_classes.html', {'year': year, 'classes': classes})
-
 
 class ClassAdmin(admin.ModelAdmin):
-    list_display = ["classname"]
+    list_filter = ["year"]
     #inlines = [ScoreInline]
 
 

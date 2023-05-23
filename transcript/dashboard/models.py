@@ -7,14 +7,6 @@ class academicyear(models.Model):
     def __str__(self):
         return self.academicyear
 
-#SUBJECT:
-class Class(models.Model):
-    classid = models.IntegerField(primary_key=True)
-    classname = models.CharField(max_length=50)
-    credit = models.PositiveSmallIntegerField(null=True)
-
-    def __str__(self):
-        return self.classname
 
 #GRADE:
 class Year(models.Model):
@@ -30,6 +22,18 @@ class Year(models.Model):
 
     def __str__(self):
         return f"{self.year}"
+    
+
+#SUBJECT:
+class Class(models.Model):
+    classid = models.IntegerField(primary_key=True)
+    classname = models.CharField(max_length=50)
+    credit = models.PositiveSmallIntegerField(null=True)
+    year = models.ForeignKey(Year, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.classname
+
 
 
 class Student(models.Model):
